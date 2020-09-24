@@ -37,25 +37,26 @@ y_gr = 0.9                      #distance from generator COM to MB1, m
 y_g = 1.2                       #distance from MB1 to MB2, m
 y_s = 0.25                      #distance from shaft COM to MB1, m
 y_r = 3.638                     #distance from hub/rotor COM to MB1
-f_xr = 10000                    #Need LSSShftFys or LSSGagFys
+#f_xr = 10000                   #Need LSSShftFys or LSSGagFys
 f_z = m_rotorhub*g              #Weight of rotor + hub, N
-
+y_ms = 11.35                    #Hub overhang, m
 C = 934000*4.15*4.44822         #Capacity of Timken Bearing (Converted and Scaled), N
 e = 10/3                        #constant for roller bearings
-
+X = 1.2                         #rotation factor
+Y = 0.39                        #Estimated thrust factor
 
 def MB2_forces(a, torque, m_y, m_z):
     m1 = m_y - m_gr*g*np.cos(a)*y_gr + m_s*g*y_s*np.cos(a)
-    m2 = f_xr*y_r + m_z
-    f_r2 = (1/y_g)*(m1**2 + m2**2)**0.5
+    m2 = (m_y/y_ms)*y_r + m_z
+    f_r2 = X*((1/y_g)*(m1**2 + m2**2)**0.5)
     return f_r2
 
    
 def MB1_forces(a, torque, m_y, m_z):
     f_r2 = MB2_forces(a,torque,m_y,m_z)
-    f_r1 = f_r2 + (f_xr**2 + f_z**2)**0.5
+    f_r1 = f_r2 + ((m_y/y_ms)**2 + f_z**2)**0.5
     f_a1 = -torque + m_rotorhub*g*np.sin(a) + m_gr*g*np.sin(a) + m_s*g*np.sin(a)
-    f_total1 = (f_r1**2 + f_a1**2)**0.5
+    f_total1 = X*f_r1 + Y*f_a1
     return f_r1,f_a1,f_total1
 
 
@@ -97,3 +98,4 @@ plt.show()
 
 print('MB1 L10 Calculated: ', L10_total_MB1, "hours or", L10_total_MB1/24/365 , "years" )
 print('MB2 L10 Calculated: ', L10_total_MB2, "hours or", L10_total_MB2/24/365 , "years" )
+
