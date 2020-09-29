@@ -17,7 +17,7 @@ import MB_Model
 # Define turbine and drivetrain characteristics
 FF_timestep = 0.025  
 g = 9.81                        #gravitational acceleration, m*s^-2
-m_gr = 144.963*1000             #mass of generator, kg
+m_gr = (144.963+226.629)*1000   #mass of generator, kg
 m_s = 15.734*1000               #mass of shaft, kg
 m_rh = 385*1000                 #mass of rotor+hub, kg 
 rho = 6*math.pi/180             #tilt angle, radians
