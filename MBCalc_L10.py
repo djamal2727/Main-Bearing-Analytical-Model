@@ -12,26 +12,13 @@ import pandas as pd
 #External Module
 import filetranslation
 import MB_Model
+import rwtparameters
 
 
 # Define turbine and drivetrain characteristics
-FF_timestep = 0.025  
-g = 9.81                        #gravitational acceleration, m*s^-2
-m_gr = (144.963+226.629)*1000   #mass of generator, kg
-m_s = 15.734*1000               #mass of shaft, kg
-m_rh = 385*1000                 #mass of rotor+hub, kg 
-rho = 6*math.pi/180             #tilt angle, radians
-
-L_gr = 0.9                      #distance from generator COM to MB1, m
-L_g = 1.2                       #distance from MB1 to MB2, m
-L_s = 0.25                      #distance from shaft COM to MB1, m
-L_r = 3.638                     #distance from hub/rotor COM to MB1
-#f_xr = 10000                   #Need LSSShftFys or LSSGagFys
-L_h = 11.35                     #Hub overhang, m
-C = 934000*4.15*4.44822         #Capacity of Timken Bearing (Converted and Scaled), N
-e = 10/3                        #constant for roller bearings
-X = 1.2                         #rotation factor
-Y = 0.39                        #Estimated thrust factor
+Parameters = rwtparameters.RWTParameters()
+FF_timestep, g, m_gr, m_s, m_rh, rho, L_gr, L_g, L_s, L_r, L_h, C, e, X, Y = Parameters.RWT_15MW()
+#FF_timestep, g, m_gr, m_s, m_rh, rho, L_gr, L_g, L_s, L_r, L_h, C, e, X, Y = Parameters.RWT_10MW()
 
 #Define load channel inputs
 Data = filetranslation.Filetranslation()
