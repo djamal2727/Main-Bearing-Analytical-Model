@@ -25,6 +25,7 @@ Data = filetranslation.Filetranslation()
 data, ChanName, info = Data.load_binary_output("FFarm_mod.T1.outb")
 rot_speed = data[:,16] #translate rotor speed to planet speed (rpm)
 torque = data[:,17] * 1E3 # in N-m
+RotThrust = data[:,18] * 1E3 # in N
 m_y = data[:,7] * 1E3 # in N-m
 m_z = data[:,8] * 1E3 # in N-m
 
@@ -46,7 +47,7 @@ MainBearingCalc = MB_Model.MB_Model(
     Y = Y
     )
 
-f_r1, f_r2, f_a1, f_total1 = MainBearingCalc.MB_forces(rho,torque,m_y,m_z, rot_speed)
+f_r1, f_r2, f_a1, f_total1 = MainBearingCalc.MB_forces(rho,torque, RotThrust, m_y,m_z, rot_speed)
 MainBearingCalc.plot_loads(f_r1, f_a1, f_total1, f_r2, "Radial Force on MB1", "Axial Force on MB1", "Resultant Force on MB1","Radial Force on MB2", "Time (s)", "Load (N-m)" )
 
 L101, L10_total_MB1 = MainBearingCalc.L10_Calc(rot_speed, f_total1)

@@ -32,14 +32,14 @@ class MB_Model():
         self.Y = Y                          # Estimated thrust factor
         
 
-    def MB_forces(self, rho, torque, m_y, m_z, rot_speed):
+    def MB_forces(self, rho, torque, RotThrust, m_y, m_z, rot_speed):
         
         m1 = m_y - self.m_gr*self.g*np.cos(self.rho)*self.L_gr + self.m_s*self.g*self.L_s*np.cos(self.rho)
         m2 = (m_y/self.L_h)*self.L_r + m_z
         f_r2 = self.X*((1/self.L_g)*(m1**2 + m2**2)**0.5)
         
-        f_r1 = f_r2 + ((m_y/self.L_h)**2 + (self.m_rh*self.g)**2)**0.5
-        f_a1 = -torque + self.m_rh*self.g*np.sin(self.rho) + self.m_gr*self.g*np.sin(self.rho) + self.m_s*self.g*np.sin(self.rho)
+        f_r1 = f_r2 + ((m_y/self.L_h)**2 + (self.m_rh*self.g*np.cos(self.rho))**2)**0.5
+        f_a1 = -RotThrust + self.m_rh*self.g*np.sin(self.rho) + self.m_gr*self.g*np.sin(self.rho) + self.m_s*self.g*np.sin(self.rho)
         f_total1 = self.X*f_r1 + self.Y*f_a1
         
         return f_r1,f_r2, f_a1,f_total1
