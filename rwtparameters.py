@@ -23,11 +23,12 @@ class RWTParameters():
        L_r = 3.638                     #distance from hub/rotor COM to MB1
        #f_xr = 10000                   #Need LSSShftFys or LSSGagFys
        L_h = 11.35                     #Hub overhang, m
+       L_b = 0.9                       #Distance of downwind bearing from bedplate flange, m
        C = 934000*4.15*4.44822         #Capacity of Timken Bearing (Converted and Scaled), N
        e = 10/3                        #constant for roller bearings
        X = 1.2                         #rotation factor
        Y = 0.39                        #Estimated thrust factor
-       return FF_timestep, g, m_gr, m_s, m_rh, rho, L_gr, L_g, L_s, L_r, L_h, C, e, X, Y
+       return FF_timestep, g, m_gr, m_s, m_rh, rho, L_gr, L_g, L_s, L_r, L_h, L_b, C, e, X, Y
    
     def RWT_10MW(self):
         # Define turbine and drivetrain characteristics

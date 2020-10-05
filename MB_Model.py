@@ -11,7 +11,7 @@ import math
 
 class MB_Model():
     
-    def __init__(self, FF_timestep, m_s, m_gr, m_rh, g, L_gr, L_g, L_s, L_r, L_h, rho, C, e, X, Y):
+    def __init__(self, FF_timestep, m_s, m_gr, m_rh, g, L_gr, L_g, L_s, L_r, L_h, L_b, rho, C, e, X, Y):
         
         '''Instantiate LayoutOptimization object and parameter values.'''
 
@@ -25,6 +25,7 @@ class MB_Model():
         self.L_s = L_s                      # distance from shaft COM to MB1, m
         self.L_r = L_r                      # distance from hub/rotor COM to MB1
         self.L_h = L_h                      # hub overhang, m
+        self.L_b = L_b                      #Distance of downwind bearing from bedplate flange, m
         self.rho = rho                      # bedplate tilting angle (if don't want to include, set to 0 degrees)
         self.C = C                          # bearing basic dynamic load rating or capacity, N (the load that a bearing can carry for 1 million inner-race revolutions with a 90% probability of survival)
         self.e = e                          # constant for roller bearings
@@ -33,6 +34,8 @@ class MB_Model():
         
 
     def MB_forces(self, rho, torque, RotThrust, m_y, m_z, rot_speed):
+        
+        #Equations adapted from DNV Guidelines and Smith, NTNU Master Thesis 2012
         
         m1 = m_y - self.m_gr*self.g*np.cos(self.rho)*self.L_gr + self.m_s*self.g*self.L_s*np.cos(self.rho)
         m2 = (m_y/self.L_h)*self.L_r + m_z
@@ -43,7 +46,26 @@ class MB_Model():
         f_total1 = self.X*f_r1 + self.Y*f_a1
         
         return f_r1,f_r2, f_a1,f_total1
-
+    
+    def MB_forces2(self, rho, torque, RotThrust, m_y, m_z, rot_speed, Ftipz, Ftipy, Fbz, Fby):
+        
+        #Model adapted from Hart et al 2019, see FBD by D. Jamal for formulation 
+        
+        Fgr = self.m_gr*self.g
+        Fs = self.m_s*self.g
+        
+        fah = (-m_z - Ftipy*(self.L_r + self.L_g + self.L_b) + (self.Fby + self.Ftipy)*self.L_b)/self.L_g
+        fbh = Fby + Ftipy - fah
+        
+        fav = ((Ftipz-Fgr-Fs+Fbz)*self.Lb + Fs*(self.L_b+self.L_g+self.L_s) + Fgr*(self.L_b+self.L_s+self.L_gr) - Ftipz*(self.L_b+self.L_s+self.L_r)-m_y)/self.L_g
+        fbv = Ftipz-Fgr-fav-Fs+Fbz
+        
+        MB1_r = (fah**2+fav**2)**0.5
+        MB1_a = RotThrust
+        MB1_total = self.X*MB1_r + self.Y*MB1_a
+        MB2_total = self.X*((fbh**2+fbv**2)**0.5)
+        
+        return MB1_total, MB2_total
 
     def L10_Calc(self, rot_speed, MB_forces):
         T = self.FF_timestep / (len(rot_speed) * self.FF_timestep - self.FF_timestep) # fraction of total running time at a given load and speed
