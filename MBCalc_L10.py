@@ -17,8 +17,8 @@ import rwtparameters
 
 # Define turbine and drivetrain characteristics
 Parameters = rwtparameters.RWTParameters()
-FF_timestep, g, m_gr, m_s, m_rh, rho, L_gr, L_g, L_s, L_r, L_h, C, e, X, Y = Parameters.RWT_15MW()
-#FF_timestep, g, m_gr, m_s, m_rh, rho, L_gr, L_g, L_s, L_r, L_h, C, e, X, Y = Parameters.RWT_10MW()
+FF_timestep, g, m_gr, m_s, m_rh, rho, L_gr, L_g, L_s, L_r, L_h, L_b, C, e, X, Y = Parameters.RWT_15MW()
+#FF_timestep, g, m_gr, m_s, m_rh, rho, L_gr, L_g, L_s, L_r, L_h, L_b, C, e, X, Y = Parameters.RWT_10MW()
 
 #Define load channel inputs
 Data = filetranslation.Filetranslation()
