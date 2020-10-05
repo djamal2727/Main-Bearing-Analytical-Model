@@ -65,7 +65,7 @@ class MB_Model():
         MB1_total = self.X*MB1_r + self.Y*MB1_a
         MB2_total = self.X*((fbh**2+fbv**2)**0.5)
         
-        return MB1_total, MB2_total
+        return MB1_total, MB1_r, MB1_a, MB2_total
 
     def L10_Calc(self, rot_speed, MB_forces):
         T = self.FF_timestep / (len(rot_speed) * self.FF_timestep - self.FF_timestep) # fraction of total running time at a given load and speed
