@@ -9,9 +9,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 
+
 class MB_Model():
     
-    def __init__(self, FF_timestep, m_s, m_gr, m_rh, g, L_gr, L_g, L_s, L_r, L_h, rho, C, e, X, Y):
+    def __init__(self, FF_timestep, m_s, m_gr, m_rh, g, L_gr, L_g, L_s, L_r, L_h, rho):
         
         '''Instantiate LayoutOptimization object and parameter values.'''
 
@@ -26,49 +27,35 @@ class MB_Model():
         self.L_r = L_r                      # distance from hub/rotor COM to MB1
         self.L_h = L_h                      # hub overhang, m
         self.rho = rho                      # bedplate tilting angle (if don't want to include, set to 0 degrees)
-        self.C = C                          # bearing basic dynamic load rating or capacity, N (the load that a bearing can carry for 1 million inner-race revolutions with a 90% probability of survival)
-        self.e = e                          # constant for roller bearings
-        self.X = X                          # rotation factor
-        self.Y = Y                          # Estimated thrust factor
+
         
 
-    def MB_forces(self, rho, torque, RotThrust, m_y, m_z, f_y, rot_speed):
+    def MB_forces(self, rho, torque, RotThrust, m_y, m_z, f_y, f_z, rot_speed, X1, Y1, X2):
         
         #Equations adapted from DNV Guidelines and Smith, NTNU Master Thesis 2012
         
-        m1 = m_y - self.m_gr*self.g*np.cos(self.rho)*self.L_gr + self.m_s*self.g*self.L_s*np.cos(self.rho)
+        m1 = m_y - self.m_rh*self.g*np.cos(self.rho)*self.L_r - self.m_gr*self.g*np.cos(self.rho)*self.L_gr + self.m_s*self.g*self.L_s*np.cos(self.rho)
         m2 = (f_y)*self.L_r + m_z
-        f_r2 = self.X*((1/self.L_g)*(m1**2 + m2**2)**0.5)
+        f_r2 = X2*((1/self.L_g)*(m1**2 + m2**2)**0.5)
         
-        f_r1 = f_r2 + ((f_y)**2 + (self.m_rh*self.g*np.cos(self.rho))**2)**0.5
+        
+        f_r1 = (1/X2)*f_r2 + ((f_y)**2 + (f_z)**2)**0.5
+        #self.m_rh*self.g*np.cos(self.rho)
         f_a1 = -RotThrust + self.m_rh*self.g*np.sin(self.rho) + self.m_gr*self.g*np.sin(self.rho) + self.m_s*self.g*np.sin(self.rho)
-        f_total1 = self.X*f_r1 + self.Y*f_a1
+        f_total1 = X1*f_r1 + Y1*f_a1
         
         return f_r1,f_r2, f_a1,f_total1
     
-    def MB_forces2(self, rho, torque, RotThrust, m_y, m_z, rot_speed, Ftipz, Ftipy, Fbz, Fby):
-        
-        #Model adapted from Hart et al 2019, see FBD by D. Jamal for formulation 
-        
-        Fgr = self.m_gr*self.g
-        Fs = self.m_s*self.g
-        
-        fah = (-m_z - Ftipy*(self.L_r + self.L_g + self.L_b) + (self.Fby + self.Ftipy)*self.L_b)/self.L_g
-        fbh = Fby + Ftipy - fah
-        
-        fav = ((Ftipz-Fgr-Fs+Fbz)*self.Lb + Fs*(self.L_b+self.L_g+self.L_s) + Fgr*(self.L_b+self.L_s+self.L_gr) - Ftipz*(self.L_b+self.L_s+self.L_r)-m_y)/self.L_g
-        fbv = Ftipz-Fgr-fav-Fs+Fbz
-        
-        MB1_r = (fah**2+fav**2)**0.5
-        MB1_a = RotThrust
-        MB1_total = self.X*MB1_r + self.Y*MB1_a
-        MB2_total = self.X*((fbh**2+fbv**2)**0.5)
-        
-        return MB1_total, MB1_r, MB1_a, MB2_total
 
-    def L10_Calc(self, rot_speed, MB_forces):
+
+    def L10_Calc(self, rot_speed, MB_forces, C, e):
         T = self.FF_timestep / (len(rot_speed) * self.FF_timestep - self.FF_timestep) # fraction of total running time at a given load and speed
-        L10 = [T/((10**6/(60*i))*(self.C/abs(j))**self.e) for i,j in zip(rot_speed, MB_forces)]
+        L10 = [T/((10**6/(60*i))*(C/abs(j))**e) for i,j in zip(abs(rot_speed), MB_forces)]
+        # 10**6 million race revolutions conversion factor
+        # 60 min/hr conversion factor
+        # i: planet speed 
+        # C: bearing basic dynamic load rating or capacity, N (the load that a bearing can carry for 1 million inner-race revolutions with a 90% probability of survival)
+        # e: load-life exponent (determined by Lundberg and Palmgren to be 3 for ball bearings and 10/3 for cylindrical roller bearings)
         L10_total = 1/sum(L10) 
         return L10, L10_total
     
