@@ -17,6 +17,8 @@ import rwtparameters
 import pyFrame3DDValidation as Frame3DD
 
 
+n=2000
+
 ##_____________________________________________________Input Parameters____________________________________________________________________##
 
 
@@ -30,13 +32,13 @@ FF_timestep, g, m_gr, m_s, m_rh, rho, L_gr, L_g, L_s, L_r, L_h, C1, e1, X1, Y1, 
 #Define load channel inputs
 Data = filetranslation.Filetranslation()
 data, ChanName, info = Data.load_binary_output("5MWFastData.outb")
-rot_speed = data[:2000,7] #translate rotor speed to planet speed (rpm)
-torque = data[:2000,5] * 1E3 # in N-m
-RotThrust = data[:2000,6] * 1E3 # in N
-m_y = data[:2000,8] * 1E3 # in N-m
-m_z = data[:2000,9] * 1E3 # in N-m
-f_y = data[:2000,10] * 1E3 # in N
-f_z = data[:2000,11] * 1E3 # in-N
+rot_speed = data[:n,7] #translate rotor speed to planet speed (rpm)
+torque = data[:n,5] * 1E3 # in N-m
+RotThrust = data[:n,6] * 1E3 # in N
+m_y = data[:n,8] * 1E3 # in N-m
+m_z = data[:n,9] * 1E3 # in N-m
+f_y = data[:n,10] * 1E3 # in N
+f_z = data[:n,11] * 1E3 # in-N
 
 #Assign Model Parameters for Analytical Model
 MainBearingCalc = MB_Model.MB_Model(
@@ -71,7 +73,7 @@ f_total1v = []
     
 
 
-while i<2000:
+while i<n:
         F_hub = [-RotThrust[i] + m_rh*g*np.sin(rho) + m_gr*g*np.sin(rho) + m_s*g*np.sin(rho),-f_y[i], -f_z[i]]
         M_hub = [torque[i],m_y[i], m_z[i]]
         

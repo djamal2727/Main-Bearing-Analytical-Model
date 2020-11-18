@@ -71,7 +71,7 @@ class RWTParameters():
       #Downwind Main Bearing, MB2
        C2 = 10061*1000                  #Capacity of  Bearing , N
        e2 = 10/3                        #constant for roller bearings
-       X2 = 1                            #rotation factor
+       X2 = 3.2                            #rotation factor
  
        return FF_timestep, g, m_gr, m_s, m_rh, rho, L_gr, L_g, L_s, L_r, L_h, C1, e1, X1, Y1, C2, e2, X2
    
