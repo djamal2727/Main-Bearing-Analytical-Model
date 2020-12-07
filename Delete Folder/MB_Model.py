@@ -8,6 +8,8 @@ Created on Mon Sep 28 20:01:58 2020
 import numpy as np
 import matplotlib.pyplot as plt
 import math
+import struct
+import os
 
 
 class MB_Model():
@@ -40,7 +42,6 @@ class MB_Model():
         
         
         f_r1 = (1/X2)*f_r2 + ((f_y)**2 + (-f_z)**2)**0.5
-        #self.m_rh*self.g*np.cos(self.rho)
         f_a1 = -RotThrust + self.m_rh*self.g*np.sin(self.rho) + self.m_gr*self.g*np.sin(self.rho) + self.m_s*self.g*np.sin(self.rho)
         f_total1 = X1*f_r1 + Y1*f_a1
         
