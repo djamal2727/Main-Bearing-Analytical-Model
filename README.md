@@ -14,6 +14,6 @@ This directory contains the code to a main bearign analytical model that estimat
 
 If this main bearing model played a role in your research, please cite it. This software can be cited as:
 
-RBLO. Version 1.0.0 (2019). Available at https://github.com/caitlynclark/RBLO. For LaTeX users:
+Main Bearing Analytical Model. (2020). Available at https://github.com/djamal2727/Main-Bearing-Analytical-Model. For LaTeX users:
 
-@misc{RBLO_2019, author = {Daniyal Jamal}, title = {{Main Bearing Model}}, year = {2020}, publisher = {GitHub}, journal = {GitHub repository}, url = {https://github.com/caitlynclark/RBLO} }
+@misc{RBLO_2019, author = {Daniyal Jamal}, title = {{Main Bearing Model}}, year = {2020}, publisher = {GitHub}, journal = {GitHub repository}, url = {https://github.com/djamal2727/Main-Bearing-Analytical-Model} }
