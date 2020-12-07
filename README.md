@@ -17,4 +17,4 @@ If this main bearing model played a role in your research, please cite it. This 
 
 Main Bearing Analytical Model. (2020). Available at https://github.com/djamal2727/Main-Bearing-Analytical-Model. For LaTeX users:
 
-@misc{RBLO_2019, author = {Daniyal Jamal}, title = {{Main Bearing Model}}, year = {2020}, publisher = {GitHub}, journal = {GitHub repository}, url = {https://github.com/djamal2727/Main-Bearing-Analytical-Model} }
+@misc{MBModel_2020, author = {Daniyal Jamal}, title = {{Main Bearing Model}}, year = {2020}, publisher = {GitHub}, journal = {GitHub repository}, url = {https://github.com/djamal2727/Main-Bearing-Analytical-Model} }
