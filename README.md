@@ -29,10 +29,9 @@ Main Bearing Analytical Model. (2020). Available at https://github.com/djamal272
 # Dependencies
 RBLO has dependencies on various math, statistics, and plotting libraries in addition to other general purpose packages. For the simulation and tool modules, the dependencies are: numpy, scipy, pandas, math, and matplotlib. 
 
-License
+License 
 =======
-
-Copyright 2020 NREL
+Copyright 2020 NREL  
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
