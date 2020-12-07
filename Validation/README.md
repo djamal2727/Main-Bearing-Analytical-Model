@@ -10,7 +10,7 @@ This directory contains three primary files:
 
 3] RunValidation file runs both the analytical and validation program using a subset of the 5MW OpenFAST data as well as 5MW RWT parameters. This program plots the load results for both models and employs root-mean-square error and boxplots to quantify error and compare distribution of data, respectively.  
 
-Note: pyFrame3DD documentation, system requirements, and installation instructions can be found in the pyFrame3DD-master directory. 
+Note: pyFrame3DD documentation, system requirements, and installation instructions can be found in the pyFrame3DD-master directory or from the following link: https://github.com/WISDEM/WISDEM/tree/master/wisdem/pyframe3dd. 
 
 
 # References:
