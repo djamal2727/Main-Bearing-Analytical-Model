@@ -12,6 +12,7 @@ This directory contains four primary files:
 
 4] Report file contains previous research, project motive, model formulation, and validation method for this project in greater detail. 
 
+NOTE: An IDE is recommended to run this program
 
 # Citation
 
