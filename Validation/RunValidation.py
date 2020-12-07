@@ -97,7 +97,7 @@ f_r1, f_r2, f_a1, f_total1 = MainBearingCalc.MB_forces(rho,torque, RotThrust, m_
 
 ##_____________________________________________________PLOTS____________________________________________________________________##
 
-
+#Adjust plot settings as needed
 
 #Radial Forces on MB1 (FWMB)
 plt.subplot(211)
