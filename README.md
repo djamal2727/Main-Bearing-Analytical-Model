@@ -13,7 +13,7 @@ This directory contains four primary files:
 4] Report file contains previous research, project motive, model formulation, and validation method for this project in greater detail. 
 
 
-# CITATION
+# Citation
 
 If this main bearing model played a role in your research, please cite it. This software can be cited as:
 
