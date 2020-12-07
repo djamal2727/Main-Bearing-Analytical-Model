@@ -1,4 +1,4 @@
-#Main Bearing Analytical Model Repository
+# Main Bearing Analytical Model Repository
 
 This directory contains the code to a wind turbine main bearing analytical model that estimates bearing loads and reliability using OpenFAST data and reference wind turbine parameters. This is a low-fidelity, computationally-inexpensive model adapted for direct-drive, double main bearing configuration wind turbines. This repo also contains all the necessary drivetrain and main bearing parameters to run this model for the modified 5MW, IEA 10MW, and IEA 15MW reference wind turbine. 
 
@@ -13,8 +13,7 @@ This directory contains four primary files:
 4] Report file contains previous research, project motive, model formulation, and validation method for this project in greater detail. 
 
 
-
-#CITATION
+# CITATION
 
 If this main bearing model played a role in your research, please cite it. This software can be cited as:
 
