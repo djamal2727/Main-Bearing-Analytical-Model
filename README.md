@@ -18,6 +18,9 @@ Git clone https://github.com/djamal2727/Main-Bearing-Analytical-Model
 
 NOTE: An IDE is recommended to run this program
 
+# Dependencies
+RBLO has dependencies on various math, statistics, and plotting libraries in addition to other general purpose packages. For the simulation and tool modules, the dependencies are: numpy, scipy, pandas, math, and matplotlib. 
+
 # Citation
 
 If this main bearing model played a role in your research, please cite it. This software can be cited as:
@@ -26,7 +29,22 @@ Main Bearing Analytical Model. (2020). Available at https://github.com/djamal272
 
 @misc{MBModel_2020, author = {Daniyal Jamal, Caitlyn Clark}, title = {{Main Bearing Model}}, year = {2020}, publisher = {GitHub}, journal = {GitHub repository}, url = {https://github.com/djamal2727/Main-Bearing-Analytical-Model} }
 
-# Dependencies
-RBLO has dependencies on various math, statistics, and plotting libraries in addition to other general purpose packages. For the simulation and tool modules, the dependencies are: numpy, scipy, pandas, math, and matplotlib. 
+
+License 
+=======
+Copyright 2020 NREL  
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
 
 
