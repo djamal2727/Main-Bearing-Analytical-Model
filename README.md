@@ -1,5 +1,4 @@
-# Jamal_NREL2020
-Main Bearing Analytical Model Repo
+Main Bearing Analytical Model Repository
 
 This directory contains the code to a wind turbine main bearing analytical model that estimates bearing loads and reliability using OpenFAST data and reference wind turbine parameters. This directory contains four primary files:
 
@@ -7,8 +6,12 @@ This directory contains the code to a wind turbine main bearing analytical model
 
 2] Example Folder runs this model using the 5MW RWT. Load_Estimation_Results folder contains the results from this example run. 
 
-4] Validation folder contains the frame3DD source code, validation program, and example run of validation process
+3] Validation folder contains the frame3DD source code, validation program, and example run of validation process
 
+4] Report file compiles previous research, project motive, model formulation, and validation method. 
+
+
+CITATION
 
 If this main bearing model played a role in your research, please cite it. This software can be cited as:
 
