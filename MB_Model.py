@@ -35,11 +35,11 @@ class MB_Model():
         #Equations adapted from DNV Guidelines and Smith, NTNU Master Thesis 2012
         
         m1 = m_y - self.m_rh*self.g*np.cos(self.rho)*self.L_r - self.m_gr*self.g*np.cos(self.rho)*self.L_gr + self.m_s*self.g*self.L_s*np.cos(self.rho)
-        m2 = (f_y)*self.L_r + m_z
+        m2 = (f_y)*self.L_r + (m_z)
         f_r2 = X2*((1/self.L_g)*(m1**2 + m2**2)**0.5)
         
         
-        f_r1 = (1/X2)*f_r2 + ((f_y)**2 + (f_z)**2)**0.5
+        f_r1 = (1/X2)*f_r2 + ((f_y)**2 + (-f_z)**2)**0.5
         #self.m_rh*self.g*np.cos(self.rho)
         f_a1 = -RotThrust + self.m_rh*self.g*np.sin(self.rho) + self.m_gr*self.g*np.sin(self.rho) + self.m_s*self.g*np.sin(self.rho)
         f_total1 = X1*f_r1 + Y1*f_a1

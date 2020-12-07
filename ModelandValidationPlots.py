@@ -7,7 +7,7 @@ Created on Thu Nov  5 07:40:28 2020
 
 import numpy as np
 import matplotlib.pyplot as plt
-import math
+import math 
 import pandas as pd
 
 #External Module
@@ -15,6 +15,7 @@ import filetranslation
 import MB_Model
 import rwtparameters
 import pyFrame3DDValidation as Frame3DD
+from datetime import datetime
 
 
 n=2000
@@ -70,69 +71,78 @@ f_r1v = []
 f_r2v = []
 f_a1v = []
 f_total1v = []
-    
 
+startTime = datetime.now()
 
 while i<n:
-        F_hub = [-RotThrust[i] + m_rh*g*np.sin(rho) + m_gr*g*np.sin(rho) + m_s*g*np.sin(rho),-f_y[i], -f_z[i]]
-        M_hub = [torque[i],m_y[i], m_z[i]]
+        F_hub = [-RotThrust[i] + m_rh*g*np.sin(rho) + m_gr*g*np.sin(rho) + m_s*g*np.sin(rho),-f_y[i], -f_z[i]+225000]
+        M_hub = [torque[i], m_y[i], m_z[i]-300000]
         
         # Run Frame3DD and print results to screen
         F_mb1, F_mb2 = Frame3DD.run(diameter, thickness, length, tilt, F_hub, M_hub)
         f_r1v.append((F_mb1[1]**2 + F_mb1[2]**2)**0.5)
         f_r2v.append(X2*(F_mb2[1]**2 + F_mb2[2]**2)**0.5)
         f_a1v.append(F_mb1[0])
-        f_total1v.append(X1*f_r1v[i] + Y1*F_mb1[0])
+        f_total1v.append(X1*((F_mb1[1]**2 + F_mb1[2]**2)**0.5) + Y1*F_mb1[0])
         i=i+1
-        
+
 ##_____________________________________________________Analytical Model____________________________________________________________________##
 
-    
 
 f_r1, f_r2, f_a1, f_total1 = MainBearingCalc.MB_forces(rho,torque, RotThrust, m_y, m_z, f_y, f_z, rot_speed, X1, Y1, X2)
 
 
+
+
 ##_____________________________________________________PLOTS____________________________________________________________________##
 
+
+
 #Radial Forces on MB1 (FWMB)
+plt.subplot(221)
 plt.plot(range(len(f_r1)), f_r1, alpha=0.5, label = "Analytical Model") 
 plt.plot(range(len(f_r1v)), f_r1v, alpha=0.5, label = "Frame3DD") 
-plt.tight_layout()
 plt.xlabel("Time(s)")
 plt.ylabel("Load (N)")
-plt.legend(loc='lower right')
-plt.title("Radial Force of MB1")
-plt.show()
+#plt.legend(loc='lower right')
+plt.title("Radial Force of MB1", fontsize=9)
+#plt.show()
 
 #Axial Forces on MB1 (FWMB)
+plt.subplot(222)
 plt.plot(range(len(f_a1)), f_a1, alpha=0.5, label = "Analytical Model") 
 plt.plot(range(len(f_a1v)), f_a1v, alpha=0.5, label = "Frame3DD") 
-plt.tight_layout()
 plt.xlabel("Time(s)")
 plt.ylabel("Load (N)")
-plt.legend(loc='lower right')
-plt.title("Axial Force of MB1")
-plt.show()
+plt.legend(bbox_to_anchor=(1, 0), loc='lower left', fontsize='xx-small')
+plt.title("Axial Force of MB1",fontsize=9 )
+#plt.show()
 
 #Total Forces on MB1 (FWMB)
+plt.subplot(223)
 plt.plot(range(len(f_total1)), f_total1, alpha=0.5, label = "Analytical Model") 
 plt.plot(range(len(f_total1v)), f_total1v, alpha=0.5, label = "Frame3DD") 
-plt.tight_layout()
 plt.xlabel("Time(s)")
 plt.ylabel("Load (N)")
-plt.legend(loc='lower right')
-plt.title("Total Force of MB1")
-plt.show()
+#plt.legend(loc='lower right')
+plt.title("Total Force of MB1",fontsize=9)
+#plt.show()
+
 
 #Radial Forces on MB2 (FWMB)
+plt.subplot(224)
 plt.plot(range(len(f_r2)), f_r2, alpha=0.5, label = "Analytical Model") 
 plt.plot(range(len(f_r2v)), f_r2v, alpha=0.5, label = "Frame3DD") 
-plt.tight_layout()
 plt.xlabel("Time(s)")
 plt.ylabel("Load (N)")
-plt.legend(loc='lower right')
-plt.title("Radial Force of MB2")
+plt.legend(bbox_to_anchor=(1, 0), loc='lower left', fontsize='xx-small')
+plt.title("Radial Force of MB2", fontsize=9)
+plt.tight_layout()
 plt.show()
+
+
+
+
 
 
 ##_____________________________________________________L10 Calculations____________________________________________________________________##
@@ -140,6 +150,9 @@ plt.show()
 
 L101v, L10_total_MB1v = MainBearingCalc.L10_Calc(rot_speed, f_total1v, C1, e1)
 L102v, L10_total_MB2v = MainBearingCalc.L10_Calc(rot_speed, f_r2v, C2, e2)
+
+print('Validation: ', datetime.now() - startTime)
+
 
 print('Validation MB1 L10 Calculated: ', L10_total_MB1v, "hours or", L10_total_MB1v/24/365 , "years" )
 print('Validation MB2 L10 Calculated: ', L10_total_MB2v, "hours or", L10_total_MB2v/24/365 , "years" )
@@ -149,22 +162,24 @@ L102, L10_total_MB2 = MainBearingCalc.L10_Calc(rot_speed, f_r2, C2, e2)
 print('MB1 L10 Calculated: ', L10_total_MB1, "hours or", L10_total_MB1/24/365 , "years" )
 print('MB2 L10 Calculated: ', L10_total_MB2, "hours or", L10_total_MB2/24/365 , "years" )
 
-print('MB1 Error: ', abs(L10_total_MB1 - L10_total_MB1v))
-print('MB2 Error: ', abs(L10_total_MB2 - L10_total_MB2v))
+print('MB1 Error: ', abs(L10_total_MB1 - L10_total_MB1v)/L10_total_MB1v)
+print('MB2 Error: ', abs(L10_total_MB2 - L10_total_MB2v)/L10_total_MB2v)
 
-##_____________________________________________________RMS Error____________________________________________________________________##
+##_____________________________________________________Normalized RMS Error____________________________________________________________________##
 
 f1varray = np.array(f_total1v)
 f1rarray = np.array(f_r2v)
 
-RMSE = np.sqrt(sum((f_total1 - f1varray)**2)/len(f_total1))
+from sklearn.metrics import mean_squared_error
 
-#print(RMSE)
+NRMSE_MB1 = math.sqrt(mean_squared_error(f1varray, f_total1))/(np.amax(f1varray)-np.amin(f1varray))
+NRMSE_MB2 = math.sqrt(mean_squared_error(f_r2v, f_r2))/(np.amax(f_r2v)-np.amin(f_r2v))
+print('NRMSE of MB1 = ', NRMSE_MB1)
+print('NRMSE of MB2 = ', NRMSE_MB2)
+
 
 
 ##_____________________________________________________BOXPLOT____________________________________________________________________##
-
-
 
 
 # frame1 = pd.DataFrame(f_total1, columns = ["Force (N)"])
