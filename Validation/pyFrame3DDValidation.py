@@ -82,9 +82,9 @@ def run(D, t, L, tilt, F_hub, M_hub):
     ynode = znode = rnode = np.zeros(n)
     # Assumption is that x=0 is connection to generator/gearbox, x=L is at hub flange
     xnode = np.linspace(0.0, L, n)
-    imb1  = inode[n-1] # Adjust index of where first main bearing is located #
-    imb2  = inode[n-11] # Adjust index of where second main bearing is located 
-    itorq = inode[0] # First node is generator / gearbox
+    imb1  = inode[n-1]                                  # Adjust index of where first main bearing is located #
+    imb2  = inode[n-11]                                 # Adjust index of where second main bearing is located 
+    itorq = inode[0]                                    # First node is generator / gearbox
     nodes = frame3dd.NodeData(inode, xnode, ynode, znode, rnode)
     # ------------------------------------
 
@@ -100,12 +100,12 @@ def run(D, t, L, tilt, F_hub, M_hub):
     reactions_1mb = frame3dd.ReactionData(rnode, Rx, Ry, Rz, Rxx, Ryy, Rzz, rigid=RIGID)
 
     rnode = np.r_[imb1, imb2, itorq]
-    Rx  = np.array([RIGID, FREE, FREE]) # Upwind bearing axial restriction
-    Ry  = np.array([RIGID, RIGID, FREE]) # Upwind bearing restricts translational
-    Rz  = np.array([RIGID, RIGID, FREE]) # Upwind bearing restricts translational
-    Rxx = np.array([FREE,  FREE, RIGID]) # Torque is absorbed by stator, so this is the best way to capture that
-    Ryy = np.array([FREE,  FREE, FREE]) # 
-    Rzz = np.array([FREE,  FREE, FREE]) # 
+    Rx  = np.array([RIGID, FREE, FREE])                  # Upwind bearing axial restriction
+    Ry  = np.array([RIGID, RIGID, FREE])                 # Upwind bearing restricts translational
+    Rz  = np.array([RIGID, RIGID, FREE])                 # Upwind bearing restricts translational
+    Rxx = np.array([FREE,  FREE, RIGID])                 # Torque is absorbed by stator, so this is the best way to capture that
+    Ryy = np.array([FREE,  FREE, FREE])                  # No moment reactions
+    Rzz = np.array([FREE,  FREE, FREE])                  # No moment reactions
     reactions_2mb = frame3dd.ReactionData(rnode, Rx, Ry, Rz, Rxx, Ryy, Rzz, rigid=RIGID)
     
     # -----------------------------------

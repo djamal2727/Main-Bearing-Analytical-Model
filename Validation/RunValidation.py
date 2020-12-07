@@ -9,6 +9,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math 
 import pandas as pd
+import sys
+sys.path.append('C:/Users/DJAMAL/Documents/GitHub/Jamal_NREL2020')
+sys.path.append('C:/Users/DJAMAL/Documents/GitHub/Jamal_NREL2020/Example')
 
 #External Module
 import MainBearing_Analytical_Model
@@ -27,17 +30,6 @@ Parameters = rwtparameters.RWTParameters()
 FF_timestep, g, m_gr, m_s, m_rh, rho, L_gr, L_g, L_s, L_r, L_h, C1, e1, X1, Y1, C2, e2, X2 = Parameters.RWT_5MW()
 
 
-#Define load channel inputs
-Data = MainBearing_Analytical_Model.MainBearing_Analytical_Model()
-data, ChanName, info =  Data.load_binary_output("5MWFastData.outb")
-rot_speed = data[:n,7] #translate rotor speed to planet speed (rpm)
-torque = data[:n,5] * 1E3 # in N-m
-RotThrust = data[:n,6] * 1E3 # in N
-m_y = data[:n,8] * 1E3 # in N-m
-m_z = data[:n,9] * 1E3 # in N-m
-f_y = data[:n,10] * 1E3 # in N
-f_z = data[:n,11] * 1E3 # in-N
-
 #Assign Model Parameters for Analytical Model
 MainBearingCalc = MainBearing_Analytical_Model.MainBearing_Analytical_Model(
     FF_timestep = FF_timestep,
@@ -52,6 +44,20 @@ MainBearingCalc = MainBearing_Analytical_Model.MainBearing_Analytical_Model(
     L_h = L_h,
     rho = rho,
     )
+
+
+#Define load channel inputs
+file = "/Users/DJAMAL/Documents/GitHub/Jamal_NREL2020/Example/5MWFastData.outb"
+data, ChanName, info =  MainBearingCalc.load_binary_output(file)
+rot_speed = data[:n,7] #translate rotor speed to planet speed (rpm)
+torque = data[:n,5] * 1E3 # in N-m
+RotThrust = data[:n,6] * 1E3 # in N
+m_y = data[:n,8] * 1E3 # in N-m
+m_z = data[:n,9] * 1E3 # in N-m
+f_y = data[:n,10] * 1E3 # in N
+f_z = data[:n,11] * 1E3 # in-N
+
+startTime = datetime.now()
 
 ##_____________________________________________________Run Validation Model____________________________________________________________________##
 
@@ -94,7 +100,7 @@ f_r1, f_r2, f_a1, f_total1 = MainBearingCalc.MB_forces(rho,torque, RotThrust, m_
 
 
 #Radial Forces on MB1 (FWMB)
-plt.subplot(221)
+plt.subplot(211)
 plt.plot(range(len(f_r1)), f_r1, alpha=0.5, label = "Analytical Model") 
 plt.plot(range(len(f_r1v)), f_r1v, alpha=0.5, label = "Frame3DD") 
 plt.xlabel("Time(s)")
@@ -104,36 +110,39 @@ plt.title("Radial Force of MB1", fontsize=9)
 #plt.show()
 
 #Axial Forces on MB1 (FWMB)
-plt.subplot(222)
+plt.subplot(212)
 plt.plot(range(len(f_a1)), f_a1, alpha=0.5, label = "Analytical Model") 
 plt.plot(range(len(f_a1v)), f_a1v, alpha=0.5, label = "Frame3DD") 
 plt.xlabel("Time(s)")
 plt.ylabel("Load (N)")
-plt.legend(bbox_to_anchor=(1, 0), loc='lower left', fontsize='xx-small')
+plt.legend(bbox_to_anchor=(0, 1.25), loc='lower left')
 plt.title("Axial Force of MB1",fontsize=9 )
 #plt.show()
 
-#Total Forces on MB1 (FWMB)
-plt.subplot(223)
-plt.plot(range(len(f_total1)), f_total1, alpha=0.5, label = "Analytical Model") 
-plt.plot(range(len(f_total1v)), f_total1v, alpha=0.5, label = "Frame3DD") 
-plt.xlabel("Time(s)")
-plt.ylabel("Load (N)")
-#plt.legend(loc='lower right')
-plt.title("Total Force of MB1",fontsize=9)
-#plt.show()
-
-
-#Radial Forces on MB2 (FWMB)
-plt.subplot(224)
-plt.plot(range(len(f_r2)), f_r2, alpha=0.5, label = "Analytical Model") 
-plt.plot(range(len(f_r2v)), f_r2v, alpha=0.5, label = "Frame3DD") 
-plt.xlabel("Time(s)")
-plt.ylabel("Load (N)")
-plt.legend(bbox_to_anchor=(1, 0), loc='lower left', fontsize='xx-small')
-plt.title("Radial Force of MB2", fontsize=9)
 plt.tight_layout()
 plt.show()
+
+# #Total Forces on MB1 (FWMB)
+# plt.subplot(223)
+# plt.plot(range(len(f_total1)), f_total1, alpha=0.5, label = "Analytical Model") 
+# plt.plot(range(len(f_total1v)), f_total1v, alpha=0.5, label = "Frame3DD") 
+# plt.xlabel("Time(s)")
+# plt.ylabel("Load (N)")
+# #plt.legend(loc='lower right')
+# plt.title("Total Force of MB1",fontsize=9)
+# #plt.show()
+
+
+# #Radial Forces on MB2 (FWMB)
+# plt.subplot(224)
+# plt.plot(range(len(f_r2)), f_r2, alpha=0.5, label = "Analytical Model") 
+# plt.plot(range(len(f_r2v)), f_r2v, alpha=0.5, label = "Frame3DD") 
+# plt.xlabel("Time(s)")
+# plt.ylabel("Load (N)")
+# plt.legend(bbox_to_anchor=(1, 0), loc='lower left', fontsize='xx-small')
+# plt.title("Radial Force of MB2", fontsize=9)
+# plt.tight_layout()
+# plt.show()
 
 
 

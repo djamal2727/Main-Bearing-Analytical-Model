@@ -10,29 +10,16 @@ import math
 import pandas as pd
 
 #External Module
-import filetranslation
 import MainBearing_Analytical_Model
 import rwtparameters
 from datetime import datetime
-
 
 # Define turbine and drivetrain characteristics
 Parameters = rwtparameters.RWTParameters()
 FF_timestep, g, m_gr, m_s, m_rh, rho, L_gr, L_g, L_s, L_r, L_h, C1, e1, X1, Y1, C2, e2, X2 = Parameters.RWT_5MW()
 
-#Define load channel inputs
-Data = filetranslation.Filetranslation()
-data, ChanName, info = Data.load_binary_output("5MWFastData.outb")
-rot_speed = data[:,7]                                                   # translate rotor speed to planet speed (rpm)
-torque = data[:,5] * 1E3                                                # in rpm
-RotThrust = data[:,6] * 1E3                                             # in N
-m_y = data[:,8] * 1E3                                                   # in N-m
-m_z = data[:,9] * 1E3                                                   # in N-m
-f_y = data[:,10] * 1E3                                                  # in N
-f_z = data[:,11] * 1E3                                                  # in N
 
-
-
+#Assign Model Parameters for Analytical Model
 MainBearingCalc = MainBearing_Analytical_Model.MainBearing_Analytical_Model(
     FF_timestep = FF_timestep,
     m_s = m_s,
@@ -46,6 +33,19 @@ MainBearingCalc = MainBearing_Analytical_Model.MainBearing_Analytical_Model(
     L_h = L_h,
     rho = rho,
     )
+
+
+#Define load channel inputs
+file = "/Users/DJAMAL/Documents/GitHub/Jamal_NREL2020/Example/5MWFastData.outb"
+data, ChanName, info =  MainBearingCalc.load_binary_output(file)
+rot_speed = data[:,7] #translate rotor speed to planet speed (rpm)
+torque = data[:,5] * 1E3 # in N-m
+RotThrust = data[:,6] * 1E3 # in N
+m_y = data[:,8] * 1E3 # in N-m
+m_z = data[:,9] * 1E3 # in N-m
+f_y = data[:,10] * 1E3 # in N
+f_z = data[:,11] * 1E3 # in-N
+
 
 startTime = datetime.now()
 
