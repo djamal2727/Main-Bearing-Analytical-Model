@@ -158,6 +158,7 @@ class MainBearing_Analytical_Model():
         plt.legend(loc='lower right')
         plt.show()
         
+        
         #MB2 PLOT
         plt.plot(range(len(x2)), x4, alpha=0.5, label = "Radial Force on MB2")  
         plt.tight_layout()

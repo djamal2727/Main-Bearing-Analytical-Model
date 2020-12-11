@@ -100,49 +100,47 @@ f_r1, f_r2, f_a1, f_total1 = MainBearingCalc.MB_forces(rho,torque, RotThrust, m_
 #Adjust plot settings as needed
 
 #Radial Forces on MB1 (FWMB)
-plt.subplot(211)
 plt.plot(range(len(f_r1)), f_r1, alpha=0.5, label = "Analytical Model") 
 plt.plot(range(len(f_r1v)), f_r1v, alpha=0.5, label = "Frame3DD") 
 plt.xlabel("Time(s)")
 plt.ylabel("Load (N)")
 #plt.legend(loc='lower right')
-plt.title("Radial Force of MB1", fontsize=9)
+plt.title("Radial Force of MB1")
 #plt.show()
+plt.tight_layout()
+plt.show()
 
 #Axial Forces on MB1 (FWMB)
-plt.subplot(212)
 plt.plot(range(len(f_a1)), f_a1, alpha=0.5, label = "Analytical Model") 
 plt.plot(range(len(f_a1v)), f_a1v, alpha=0.5, label = "Frame3DD") 
 plt.xlabel("Time(s)")
 plt.ylabel("Load (N)")
-plt.legend(bbox_to_anchor=(0, 1.25), loc='lower left')
-plt.title("Axial Force of MB1",fontsize=9 )
+#plt.legend(bbox_to_anchor=(0, 1.25), loc='lower left')
+plt.title("Axial Force of MB1")
 #plt.show()
-
 plt.tight_layout()
 plt.show()
 
-# #Total Forces on MB1 (FWMB)
-# plt.subplot(223)
-# plt.plot(range(len(f_total1)), f_total1, alpha=0.5, label = "Analytical Model") 
-# plt.plot(range(len(f_total1v)), f_total1v, alpha=0.5, label = "Frame3DD") 
-# plt.xlabel("Time(s)")
-# plt.ylabel("Load (N)")
-# #plt.legend(loc='lower right')
-# plt.title("Total Force of MB1",fontsize=9)
-# #plt.show()
+#Total Forces on MB1 (FWMB)
+plt.plot(range(len(f_total1)), f_total1, alpha=0.5, label = "Analytical Model") 
+plt.plot(range(len(f_total1v)), f_total1v, alpha=0.5, label = "Frame3DD") 
+plt.xlabel("Time(s)")
+plt.ylabel("Load (N)")
+#plt.legend(loc='lower right')
+plt.title("Total Force of MB1")
+plt.tight_layout()
+plt.show()
 
 
-# #Radial Forces on MB2 (FWMB)
-# plt.subplot(224)
-# plt.plot(range(len(f_r2)), f_r2, alpha=0.5, label = "Analytical Model") 
-# plt.plot(range(len(f_r2v)), f_r2v, alpha=0.5, label = "Frame3DD") 
-# plt.xlabel("Time(s)")
-# plt.ylabel("Load (N)")
-# plt.legend(bbox_to_anchor=(1, 0), loc='lower left', fontsize='xx-small')
-# plt.title("Radial Force of MB2", fontsize=9)
-# plt.tight_layout()
-# plt.show()
+#Radial Forces on MB2 (FWMB)
+plt.plot(range(len(f_r2)), f_r2, alpha=0.5, label = "Analytical Model") 
+plt.plot(range(len(f_r2v)), f_r2v, alpha=0.5, label = "Frame3DD") 
+plt.xlabel("Time(s)")
+plt.ylabel("Load (N)")
+#plt.legend(bbox_to_anchor=(1, 0), loc='lower left', fontsize='xx-small')
+plt.title("Radial Force of MB2")
+plt.tight_layout()
+plt.show()
 
 
 
@@ -152,19 +150,19 @@ plt.show()
 L101v, L10_total_MB1v = MainBearingCalc.L10_Calc(rot_speed, f_total1v, C1, e1)
 L102v, L10_total_MB2v = MainBearingCalc.L10_Calc(rot_speed, f_r2v, C2, e2)
 
-print('Validation: ', datetime.now() - startTime)
+print('Total Run Time: ', datetime.now() - startTime)
 
 
-print('Validation MB1 L10 Calculated: ', L10_total_MB1v, "hours or", L10_total_MB1v/24/365 , "years" )
-print('Validation MB2 L10 Calculated: ', L10_total_MB2v, "hours or", L10_total_MB2v/24/365 , "years" )
+#print('Validation MB1 L10 Calculated: ', L10_total_MB1v, "hours or", L10_total_MB1v/24/365 , "years" )
+#print('Validation MB2 L10 Calculated: ', L10_total_MB2v, "hours or", L10_total_MB2v/24/365 , "years" )
 
 L101, L10_total_MB1 = MainBearingCalc.L10_Calc(rot_speed, f_total1, C1, e1)
 L102, L10_total_MB2 = MainBearingCalc.L10_Calc(rot_speed, f_r2, C2, e2)
 print('MB1 L10 Calculated: ', L10_total_MB1, "hours or", L10_total_MB1/24/365 , "years" )
 print('MB2 L10 Calculated: ', L10_total_MB2, "hours or", L10_total_MB2/24/365 , "years" )
 
-print('MB1 Error: ', abs(L10_total_MB1 - L10_total_MB1v)/L10_total_MB1v)
-print('MB2 Error: ', abs(L10_total_MB2 - L10_total_MB2v)/L10_total_MB2v)
+#print('MB1 Error: ', abs(L10_total_MB1 - L10_total_MB1v)/L10_total_MB1v)
+#print('MB2 Error: ', abs(L10_total_MB2 - L10_total_MB2v)/L10_total_MB2v)
 
 ##_____________________________________________________Normalized RMS Error____________________________________________________________________##
 

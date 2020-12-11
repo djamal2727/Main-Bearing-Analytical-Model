@@ -8,6 +8,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import math
 import pandas as pd
+import sys
+sys.path.append('C:/Users/DJAMAL/Documents/GitHub/Jamal_NREL2020')
 
 #External Module
 import MainBearing_Analytical_Model
